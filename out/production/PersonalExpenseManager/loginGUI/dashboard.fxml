@@ -29,7 +29,7 @@
             <AnchorPane layoutX="17.0" layoutY="29.0" prefHeight="141.0" prefWidth="177.0" style="-fx-background-color: #6bd12c;">
                <children>
                   <Label layoutX="13.0" layoutY="14.0" text="Current Balance:" />
-                  <Label fx:id="currentBalanceLabel" layoutX="24.0" layoutY="56.0" text="\$70.00">
+                  <Label fx:id="currentBalanceLabel" layoutX="13.0" layoutY="54.0" text="\$70.00">
                      <font>
                         <Font size="37.0" />
                      </font>

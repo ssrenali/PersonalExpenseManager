@@ -18,6 +18,14 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ResourceBundle;
 
+/**
+ * This class handles the login scene window and can verify user login
+ * and register a new user.
+ *
+ * @author  Serena Li
+ * @since   2021-04-13
+ */
+
 public class LoginController implements Initializable {
 
     @FXML
@@ -33,12 +41,21 @@ public class LoginController implements Initializable {
 
     private static int accountUserID;
 
+    /**
+     * Called to initialize after login.fxml root element has been completely processed and displays
+     * initial set up of scene
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
     }
 
-    // checks if login fields are valid
+    /**
+     * Method checks if login fields are valid and validates login
+     * @param event Action event that handles button being clicked
+     */
     public void loginButtonOnAction(ActionEvent event) {
 
         if (!usernameTextField.getText().isBlank() && !enterPasswordField.getText().isBlank()) {
@@ -48,13 +65,20 @@ public class LoginController implements Initializable {
             loginMessageLabel.setText("Please enter login information");
         }
     }
-    // closes the program
+    /**
+     * Method closes the program
+     * @param event Action event that handles button being clicked
+     */
     public void cancelButtonOnAction (ActionEvent event) {
         Stage stage = (Stage) cancelButton.getScene().getWindow();
         stage.close();
     }
 
     // checks to see if login information is valid
+    /**
+     * Checks if login username and password match the database user information
+     * and opens the Personal Expense Manager dashbaord if login is valid
+     */
     public void validateLogin() {
         DatabaseConnection connectNow = new DatabaseConnection();
         Connection connectDB = connectNow.getConnection();
@@ -90,17 +114,29 @@ public class LoginController implements Initializable {
         }
     }
 
-    // getter method that gets the user's unique ID
+
+    /**
+     * Getter method that gets the user's unique ID
+     *
+     * @return accountUserID the user's unique ID
+     */
     public static int getAccountUserID() {
         return accountUserID;
     }
 
-    // buttons calls method to register new user
+
+    /**
+     * Button calls method to register new user
+     * @param event Action event that handles button being clicked
+     */
     public void signUpButtonOnAction(ActionEvent event) {
         createAccountForm();
     }
 
-    // opens up new scene to create and register new account
+
+    /**
+     * Opens up new scene to create and register new account
+     */
     public void createAccountForm() {
         try{
             // make user registration window pop up
@@ -116,7 +152,9 @@ public class LoginController implements Initializable {
         }
     }
 
-    // opens up main dashboard for Personal Expense Manager
+    /**
+     * Opens up main dashboard for Personal Expense Manager
+     */
     public void openPEM() {
         try{
             // make user registration window pop up

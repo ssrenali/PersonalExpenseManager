@@ -11,6 +11,13 @@ import javafx.stage.Stage;
 import java.sql.Connection;
 import java.sql.Statement;
 
+/**
+ * This class handles the user registration scene window and adds
+ * to users to user database
+ * @author  Serena Li
+ * @since   2021-04-13
+ */
+
 public class RegisterController {
 
     @FXML
@@ -30,7 +37,12 @@ public class RegisterController {
     @FXML
     private TextField userNameTextField;
 
-    // checks if fields are not blank and passwords match, and adds new user to user database
+
+
+    /**
+     * Checks if fields are not blank and passwords match, and adds new user to user database
+     * @param event Action event when button is clicked
+     */
     public void registerButtonOnAction(ActionEvent event) {
 
         // booleans to check if all registration info is there
@@ -51,6 +63,10 @@ public class RegisterController {
         }
     }
 
+    /**
+     * Closes current stage and returns back to login stage
+     * @param event Action event when button is clicked
+     */
     public void closeButtonOnAction(ActionEvent event) {
         // closes stage that closeButton is on
         Stage stage = (Stage) closeButton.getScene().getWindow();
@@ -58,6 +74,10 @@ public class RegisterController {
         //Platform.exit();
     }
 
+
+    /**
+     * Registers user information on registration form into user database
+     */
     public void registerUser() {
 
         // database connection

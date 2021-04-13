@@ -24,6 +24,15 @@ import java.sql.SQLException;
 import java.util.Collections;
 import java.util.ResourceBundle;
 
+
+/**
+ * This class handles the reports scene window and displays the line graph
+ * and pie chart of all the transactions
+ *
+ * @author  Serena Li
+ * @since   2021-04-13
+ */
+
 public class ReportsController implements Initializable {
 
     @FXML private TextField lineGraphYear;
@@ -49,13 +58,16 @@ public class ReportsController implements Initializable {
     private ResultSet resultSet;
     private String viewYear;
     private int currentUserID = LoginController.getAccountUserID();
+    // series for line chart coordinates
     XYChart.Series expSeries;
     XYChart.Series incSeries;
     XYChart.Series netSeries;
 
 
-
-    //Method to check if a String input can be converted into an integer value
+    /**
+     * Checks if a String input can be converted to an integer value
+     * @param input the String input that is being checked
+     */
     public boolean isInteger( String input ) {
         try {
             Integer.parseInt( input );
@@ -68,20 +80,33 @@ public class ReportsController implements Initializable {
 
 
 
-    //Closes line graph report window and returns back to the main dashboard
+    /**
+     * Closes line graph report window and returns back to the main dashboard
+     * @param event Action Event of button when clicked
+     */
     public void lineDashboardButtonOnAction(ActionEvent event) {
         Stage stage = (Stage) lineGraphDashboardButton.getScene().getWindow();
         stage.close();
     }
-    // Closes the entire program
+
+    /**
+     * Closes the entire program
+     * @param event Action Event of button when clicked
+     */
     public void lineExitButtonOnAction(ActionEvent event) {
         Stage stage = (Stage) lineGraphExitButton.getScene().getWindow();
         stage.close();
         Platform.exit();
     }
 
+
     // Checks to see if user's year input is valid, then loads transaction line graph
     // for that particular year
+    /**
+     *  Checks to see if user's year input is valid, then loads transaction line graph
+     * for that particular year
+     * @param event Action Event of button when clicked
+     */
     public void lineOKButtonOnAction(ActionEvent event) {
         int digits = String.valueOf(lineGraphYear.getText()).length();
         if (digits == 4 && isInteger(lineGraphYear.getText())) {
@@ -90,7 +115,11 @@ public class ReportsController implements Initializable {
             lineGraphLabel.setText("Year format not valid.");
         }
     }
-    // Loads the transaction line graph for the previous month (past 30 days)
+
+    /**
+     * Loads the transaction line graph for the previous month (past 30 days)
+     * @param event Action Event of button when clicked
+     */
     public void lineMonthButtonOnAction(ActionEvent event) {
         // clear previous line graph data
         expSeries.getData().clear();
@@ -129,7 +158,12 @@ public class ReportsController implements Initializable {
             ex.getCause();
         }
     }
-    // loads the transaction line graph for the previous week (past 7 days)
+
+
+    /**
+     * Loads the transaction line graph for the previous month (past 7 days)
+     * @param event Action Event of button when clicked
+     */
     public void lineWeekButtonOnAction(ActionEvent event) {
 
         expSeries.getData().clear();
@@ -168,7 +202,11 @@ public class ReportsController implements Initializable {
             ex.getCause();
         }
     }
-    // loads a line graph for all the transactions made by calling loadAllLineGraph() method
+
+    /**
+     * loads a line graph for all the transactions made by calling loadAllLineGraph() method
+     * @param event Action Event of button when clicked
+     */
     public void lineAllButtonOnAction(ActionEvent event) {
         expSeries.getData().clear();
         incSeries.getData().clear();
@@ -176,7 +214,10 @@ public class ReportsController implements Initializable {
         expSeries.getData().removeAll(Collections.singleton(transactionLineChart.getData().setAll()));
         loadAllLineGraph();
     }
-    // creates line graph for all transactions made
+
+    /**
+     * Creates a line graph for all transactions
+     */
     public void loadAllLineGraph() {
          expSeries = new XYChart.Series();
          incSeries = new XYChart.Series();
@@ -209,7 +250,10 @@ public class ReportsController implements Initializable {
             ex.getCause();
         }
     }
-    // creates line graph for a given year
+
+    /**
+     * Creates a line graph for a given year
+     */
     public void loadLineGraphYear () {
         viewYear = lineGraphYear.getText();
         expSeries.getData().clear();
@@ -251,20 +295,30 @@ public class ReportsController implements Initializable {
 
 
 
-    // expense pie chart methods
-    //Closes report scene and returns back to the main dashboard
+    /**
+     * Returns to main dashboard
+     * @param event Action Event of button when clicked
+     */
     public void expDashboardOnAction(ActionEvent event) {
         Stage stage = (Stage) expPieChartExitButton.getScene().getWindow();
         stage.close();
     }
-    //Exits entire program
+
+    /**
+     * Exits entire program
+     * @param event Action Event of button when clicked
+     */
     public void expExitOnAction(ActionEvent event) {
         Stage stage = (Stage) expPieChartExitButton.getScene().getWindow();
         stage.close();
         Platform.exit();
     }
 
-    // creates pie chart for expenses made the past week (past 7 days)
+
+    /**
+     * Loads the expense pie chart for the previous week (past 7 days)
+     * @param event Action Event of button when clicked
+     */
     public void expWeekOnAction(ActionEvent event) {
         expPieChartData.clear();
         expPieChartData = FXCollections.observableArrayList();
@@ -301,7 +355,11 @@ public class ReportsController implements Initializable {
             ex.getCause();
         }
     }
-    // creates pie chart for expenses made the past month (past 30 days)
+
+    /**
+     * Loads the expense pie chart for the previous month (past 30 days)
+     * @param event Action Event of button when clicked
+     */
     public void expMonthOnAction(ActionEvent event) {
         // same logic as expWeekOnAction but change query to get expenses in past 30 days
         expPieChartData.clear();
@@ -335,10 +393,17 @@ public class ReportsController implements Initializable {
             ex.getCause();
         }
     }
-    // creates pie chart for all expenses made by calling loadAllExpensePieChart() method
+
+    /**
+     * Loads the expense pie chart for the previous month (past 30 days)
+     * @param event Action Event of button when clicked
+     */
     public void expAllOnAction(ActionEvent event) { loadAllExpensePieChart(); }
-    // first checks if year input is valid, then displays that year's
-    // expenses in a pie chart
+
+    /**
+     * Loads the expense pie chart for the given year if year input is valid
+     * @param event Action Event of button when clicked
+     */
     public void expOKOnAction (ActionEvent event) {
         int digits = String.valueOf(expPieChartYear.getText()).length();
         if (digits == 4 && isInteger(expPieChartYear.getText())) {
@@ -350,6 +415,9 @@ public class ReportsController implements Initializable {
     }
 
     // loads expenses in pie chart of a given year
+    /**
+     * Method that loads the expense pie chart for a given year
+     */
     public void loadExpensePieChartYear() {
         expPieChartData.clear();
         viewYear = expPieChartYear.getText();
@@ -384,7 +452,9 @@ public class ReportsController implements Initializable {
             ex.getCause();
         }
     }
-    // displays all expenses in a pie chart
+    /**
+     * displays all expenses in pie chart
+     */
     public void loadAllExpensePieChart() {
         //expPieChartData.clear();
         expPieChartData = FXCollections.observableArrayList();
@@ -417,20 +487,32 @@ public class ReportsController implements Initializable {
     }
 
 
-    // income pie chart
+    // income pie chart methods
     // returns to dashboard
+    /**
+     * Returns to main dashboard
+     * @param event Action Event of button when clicked
+     */
     public void incDashboardOnAction(ActionEvent event){
         Stage stage = (Stage) incPieChartExitButton.getScene().getWindow();
         stage.close();
     }
-    // exits entire program
+
+    /**
+     * Exits the entire program
+     * @param event Action Event of button when clicked
+     */
     public void incExitOnAction(ActionEvent event) {
         Stage stage = (Stage) incPieChartExitButton.getScene().getWindow();
         stage.close();
         Platform.exit();
     }
 
-    // pie chart for past week's income
+
+    /**
+     * Loads the income pie chart for the previous week (past 7 days)
+     * @param event Action Event of button when clicked
+     */
     public void incWeekOnAction(ActionEvent event) {
         // same logic as expWeekOnAction but query gets transaction type as income instead of expense
         incPieChartData = FXCollections.observableArrayList();
@@ -462,7 +544,11 @@ public class ReportsController implements Initializable {
             ex.getCause();
         }
     }
-    // displays pie chart for past month's income
+
+    /**
+     * Loads the income pie chart for the previous month (past 30 days)
+     * @param event Action Event of button when clicked
+     */
     public void incMonthOnAction(ActionEvent event) {
         incPieChartData.clear();
         incPieChartData = FXCollections.observableArrayList();
@@ -495,10 +581,17 @@ public class ReportsController implements Initializable {
         }
     }
 
-    // pie chart for all income
+    /**
+     * Loads the income pie chart for all dates
+     * @param event Action Event of button when clicked
+     */
     public void incAllOnAction(ActionEvent event)  { loadAllIncomePieChart();}
 
-    // checks if year input is valid, then displays pie chart of that year's income
+
+    /**
+     * Checks if year input is valid, then displays pie chart of that year's income
+     * @param event Action Event of button when clicked
+     */
     public void incOKOnAction(ActionEvent event) {
         int digits = String.valueOf(incPieChartYear.getText()).length();
         if (digits == 4 && isInteger(incPieChartYear.getText())) {
@@ -509,7 +602,10 @@ public class ReportsController implements Initializable {
 
     }
 
-    // loads pie chart with all income
+
+    /**
+     * Loads pie chart for all income
+     */
     public void loadAllIncomePieChart() {
         if (incPieChartData != null) {
             incPieChartData.clear();
@@ -543,12 +639,16 @@ public class ReportsController implements Initializable {
         }
     }
 
-    // loads pie chart of a given year
+
+    /**
+     * Loads pie chart for a given year
+     */
     public void loadIncomePieChartYear() {
+        // gets year from text field
         viewYear = incPieChartYear.getText();
-        //incPieChartData.clear();
         incPieChartData = FXCollections.observableArrayList();
         try {
+            // query to get income from that specific year
             String query = "select category, sum(amount)" +
                     " from transactions" +
                     " where year(date) = " + viewYear + " and iduser_account  = " + currentUserID +
@@ -561,6 +661,7 @@ public class ReportsController implements Initializable {
                 incPieChartData.add(new PieChart.Data(resultSet.getString("category"),
                         Double.parseDouble(resultSet.getString("sum(amount)"))));
             }
+            // creating legend
             incPieChartData.forEach(data ->
                     data.nameProperty().bind(
                             Bindings.concat(
@@ -576,15 +677,19 @@ public class ReportsController implements Initializable {
         }
     }
 
-
+    /**
+     * Called to initialize after reports.fxml root element has been completely processed and displays
+     * initial set up of scene
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // load all initial graphs
         loadAllExpensePieChart();
         loadAllIncomePieChart();
         loadAllLineGraph();
-
-
+        
 
 
     }

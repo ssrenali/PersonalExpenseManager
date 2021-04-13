@@ -22,6 +22,15 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ResourceBundle;
 
+/**
+ * This class handles the main dashboard scene window and
+ * displays current balances, transaction tables and can add new transactions
+ * to database.
+ *
+ * @author  Serena Li
+ * @since   2021-04-13
+ */
+
 public class DashboardController implements Initializable {
 
     @FXML private TableView<TransactionTable> allTransactionsTableView;
@@ -72,13 +81,22 @@ public class DashboardController implements Initializable {
 
     // Menu buttons
 
-    // exits dashboard, returns to login form
+    /**
+     * Method exits dashboard and returns to login form
+     * @param event ActionEvent when button is clicked
+     */
+
     public void logoutButtonOnAction(ActionEvent event) {
         Stage stage = (Stage) logoutButton.getScene().getWindow();
         stage.close();
     }
 
     // exits entire program
+    /**
+     * Method exits entire program
+     * @param event ActionEvent when button is clicked
+     */
+
     public void exitButtonOnAction(ActionEvent event) {
         Stage stage = (Stage) exitButton.getScene().getWindow();
         stage.close();
@@ -86,8 +104,10 @@ public class DashboardController implements Initializable {
     }
 
     // add transaction form
-
-    // submits a transaction to database when submit button is clicked
+    /**
+     * Method submits a transaction to database when submit button is clicked
+     * @param event ActionEvent when button is clicked
+     */
     public void submitTransactionButtonOnAction(ActionEvent event) {
         // initialize transaction type base on user's selection
         if (incomeCheckBox.isSelected()) {
@@ -144,7 +164,9 @@ public class DashboardController implements Initializable {
 
     }
 
-    // method that adds a transaction to the transactions database
+    /**
+     * Method that adds a transaction to the transactions database
+     */
     public void addTransaction() {
 
         // database connection
@@ -187,7 +209,11 @@ public class DashboardController implements Initializable {
 
 
     // Report button
-    // opens new scene to view transaction reports
+
+    /**
+     * Method opens new scene to view transaction reports
+     * @param event ActionEvent when button is clicked
+     */
     public void viewReportsButtonOnAction (ActionEvent event) {
         try{
             // make user registration window pop up
@@ -204,6 +230,9 @@ public class DashboardController implements Initializable {
     }
 
     // displays transactions in a table
+    /**
+     * Method populates the transaction table of all income and expenses
+     */
     private void populateTransactionTable() {
         // clear table to refresh everytime something is added
         oblist.clear();
@@ -245,6 +274,9 @@ public class DashboardController implements Initializable {
     }
 
     // calculates net balance (income - expenses) and displays it
+    /**
+     * Method calculates and updates the current balance and displays it on the dashboard
+     */
     public void setCurrentBalance() {
         try {
             String query = " select (sum( case when transaction_type = 'income' then amount else 0 end )" +
@@ -263,7 +295,12 @@ public class DashboardController implements Initializable {
         }
     }
 
-    // method that finds net balance of a specific category and updates its display label
+
+    /**
+     * Method that finds net balance of a specific category and updates its display label
+     * @param category String of category that net balance calculations will be executed.
+     * @param balance  the Label of the net balance that will be updated and displayed
+     */
     public void setCategoryBalance(String category, Label balance) {
         try {
             String query = " select (sum( case when transaction_type = 'income' and category = '" + category + "' then amount else 0 end )" +
@@ -282,10 +319,16 @@ public class DashboardController implements Initializable {
         }
     }
 
-
+    /**
+     * Called to initialize after dashboard.fxml root element has been completely processed and displays
+     * initial set up of scene
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // initial setup of dashboard
+        //sets the current balances and displays transactions on dashboard table
         dbHandler = new DatabaseConnection();
         populateTransactionTable();
         setCurrentBalance();
