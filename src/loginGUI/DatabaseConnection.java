@@ -3,6 +3,7 @@ package loginGUI;
 import java.sql.Connection;
 import java.sql.DriverManager;
 
+// connects PEM to MySQL Database
 public class DatabaseConnection {
 
     public static Connection databaseLink;

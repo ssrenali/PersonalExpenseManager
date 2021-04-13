@@ -31,12 +31,6 @@ public class DashboardController implements Initializable {
     @FXML private TableColumn<TransactionTable, String> allDateCol;
     @FXML private TableColumn<TransactionTable, String> allCategoryCol;
 
-    @FXML private Tab expenseTab;
-    @FXML private TableView<TransactionTable> expenseTableView;
-    @FXML private TableColumn<TransactionTable, String> expDescriptionCol;
-    @FXML private TableColumn<TransactionTable, String> expAmountCol;
-    @FXML private TableColumn<TransactionTable, String> expDateCol;
-    @FXML private TableColumn<TransactionTable, String> expCategoryCol;
 
     // top buttons and labels
     @FXML private Label currentBalanceLabel;
@@ -75,10 +69,6 @@ public class DashboardController implements Initializable {
     // get the current user's ID
     int currentUserID = LoginController.getAccountUserID();
 
-    // checks if date input is in the correct format as YYYY-MM-DD
-    public boolean validateDateFormat(String date) {
-        return false;
-    }
 
     // Menu buttons
 
@@ -96,6 +86,8 @@ public class DashboardController implements Initializable {
     }
 
     // add transaction form
+
+    // submits a transaction to database when submit button is clicked
     public void submitTransactionButtonOnAction(ActionEvent event) {
         // initialize transaction type base on user's selection
         if (incomeCheckBox.isSelected()) {
@@ -120,16 +112,18 @@ public class DashboardController implements Initializable {
         } else if (jobCheckBox.isSelected()) {
             expCategory = "job";
         } else {
-                expCategory = "null";
+            // set to null if no category is selected
+            expCategory = "null";
         }
 
         boolean cond1 = (!descriptionTextField.getText().isBlank() &&
                 (!amountTextField.getText().isBlank() && Double.parseDouble(amountTextField.getText()) != 0));
         boolean cond2 = (!dateTextField.getText().isBlank() && !expCategory.equals("null"));
 
+        // if all fields are entered, then add transaction to database
         if ((cond1 && cond2) && !transactionType.equals("null")) {
                 System.out.println(transactionType);
-                addExpense();
+                addTransaction();
                 // make form blank again
                 descriptionTextField.clear();
                 amountTextField.clear();
@@ -145,12 +139,13 @@ public class DashboardController implements Initializable {
         } else {
             addExpenseLabel.setText("Please fill in all fields");
         }
-
+        // refresh table
         populateTransactionTable();
 
     }
 
-    public void addExpense() {
+    // method that adds a transaction to the transactions database
+    public void addTransaction() {
 
         // database connection
         DatabaseConnection connectNow = new DatabaseConnection();
@@ -159,10 +154,9 @@ public class DashboardController implements Initializable {
         String expDescription = descriptionTextField.getText();
         String expAmount = amountTextField.getText();
         String expDate = dateTextField.getText();
-        System.out.println(transactionType);
 
 
-        //add expense if all fields have been filled
+        // create query that inserts values to database
             String insertFields = "INSERT INTO transactions(transaction_type, description, amount, date, category, iduser_account) VALUES('";
             String insertValues =  transactionType + "', '" + expDescription + "','" + expAmount + "','" + expDate + "','" + expCategory + "','" + Integer.toString(currentUserID) + "')";
             String insertToRegister = insertFields + insertValues;
@@ -177,11 +171,12 @@ public class DashboardController implements Initializable {
                 } else {
                     addExpenseLabel.setText("Expense has been added!");
                 }
+                // update total current balance and specific categories
                 setCurrentBalance();
                 setCategoryBalance("shopping", shoppingLabel);
                 setCategoryBalance("etsy", etsyLabel);
                 setCategoryBalance("living", livingLabel);
-                setCategoryBalance("education", educationLabel);
+                setCategoryBalance("educational", educationLabel);
                 setCategoryBalance("other", otherLabel);
 
             }catch (Exception e) {
@@ -192,6 +187,7 @@ public class DashboardController implements Initializable {
 
 
     // Report button
+    // opens new scene to view transaction reports
     public void viewReportsButtonOnAction (ActionEvent event) {
         try{
             // make user registration window pop up
@@ -207,7 +203,7 @@ public class DashboardController implements Initializable {
         }
     }
 
-
+    // displays transactions in a table
     private void populateTransactionTable() {
         // clear table to refresh everytime something is added
         oblist.clear();
@@ -248,11 +244,12 @@ public class DashboardController implements Initializable {
         }
     }
 
+    // calculates net balance (income - expenses) and displays it
     public void setCurrentBalance() {
         try {
             String query = " select (sum( case when transaction_type = 'income' then amount else 0 end )" +
                     " - sum(case when transaction_type = 'expense' then amount else 0 end) ) current_balance" +
-                    " from transactions";
+                    " from transactions where iduser_account = " + currentUserID;
 
             resultSet = connection.createStatement().executeQuery(query);
             //loop through resultset and extract data and append to list
@@ -266,11 +263,12 @@ public class DashboardController implements Initializable {
         }
     }
 
+    // method that finds net balance of a specific category and updates its display label
     public void setCategoryBalance(String category, Label balance) {
         try {
             String query = " select (sum( case when transaction_type = 'income' and category = '" + category + "' then amount else 0 end )" +
                     " - sum(case when transaction_type = 'expense' and category = '" + category + "' then amount else 0 end) ) current_balance" +
-                    " from transactions";
+                    " from transactions where iduser_account = " + currentUserID;
 
             resultSet = connection.createStatement().executeQuery(query);
             //loop through resultset and extract data and append to list
@@ -287,13 +285,14 @@ public class DashboardController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        // initial setup of dashboard
         dbHandler = new DatabaseConnection();
         populateTransactionTable();
         setCurrentBalance();
         setCategoryBalance("shopping", shoppingLabel);
         setCategoryBalance("etsy", etsyLabel);
         setCategoryBalance("living", livingLabel);
-        setCategoryBalance("education", educationLabel);
+        setCategoryBalance("educational", educationLabel);
         setCategoryBalance("other", otherLabel);
     }
 

@@ -30,7 +30,7 @@ public class RegisterController {
     @FXML
     private TextField userNameTextField;
 
-
+    // checks if fields are not blank and passwords match, and adds new user to user database
     public void registerButtonOnAction(ActionEvent event) {
 
         // booleans to check if all registration info is there
@@ -42,7 +42,6 @@ public class RegisterController {
             if (cond1 && cond2) {
                 registerUser();
             } else {
-                // message label that says please enter all info
                 registrationMessageLabel.setText("Please enter all required information.");
             }
 
@@ -71,7 +70,6 @@ public class RegisterController {
         String password = setPasswordField.getText();
 
         // string concatentation for sql query code
-
         String insertFields = "INSERT INTO user_account(lastname, firstname, username, password) VALUES('";
         String insertValues = firstName + "','" + lastName + "','" + username + "','" + password + "')";
         String insertToRegister = insertFields + insertValues;

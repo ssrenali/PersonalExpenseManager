@@ -10,6 +10,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
+        // opens up login form
         Parent root = FXMLLoader.load(getClass().getResource("login.fxml"));
 
         primaryStage.setTitle("Personal Expense Manager");
@@ -19,6 +20,7 @@ public class Main extends Application {
 
 
     public static void main(String[] args) {
+        // launch program
         launch(args);
     }
 }

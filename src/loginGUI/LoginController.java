@@ -38,7 +38,7 @@ public class LoginController implements Initializable {
 
     }
 
-
+    // checks if login fields are valid
     public void loginButtonOnAction(ActionEvent event) {
 
         if (!usernameTextField.getText().isBlank() && !enterPasswordField.getText().isBlank()) {
@@ -48,31 +48,29 @@ public class LoginController implements Initializable {
             loginMessageLabel.setText("Please enter login information");
         }
     }
-    // make stage close on cancel button
+    // closes the program
     public void cancelButtonOnAction (ActionEvent event) {
         Stage stage = (Stage) cancelButton.getScene().getWindow();
         stage.close();
     }
 
+    // checks to see if login information is valid
     public void validateLogin() {
         DatabaseConnection connectNow = new DatabaseConnection();
         Connection connectDB = connectNow.getConnection();
         // SQL statement
         //find the total count of matching username and password row (should only be 1)
         String verifyLogin = "SELECT count(1), iduser_account FROM user_account WHERE username = '" + usernameTextField.getText() + "' AND password = '" + enterPasswordField.getText() + "'  group by iduser_account";
-       // String userIDString = "SELECT iduser_account FROM user_account WHERE username = '" + usernameTextField.getText() + "' AND password = '" + enterPasswordField.getText() + "'";
 
         try{
             Statement statement = connectDB.createStatement();
             ResultSet queryResult = statement.executeQuery(verifyLogin);
-           // ResultSet userIDResult = statement.executeQuery(userIDString);
 
             while(queryResult.next()){
                 // if result returns only 1 count, indicates user exists and password matches
                 // if user account exists, get the user ID to global variable that can be
                 // referenced later
                 if (queryResult.getInt(1) == 1) {
-                    // fix - open up PEM
                     loginMessageLabel.setText("Logging you in!");
                     accountUserID = queryResult.getInt(2);
                     //open dashboard
@@ -92,14 +90,17 @@ public class LoginController implements Initializable {
         }
     }
 
+    // getter method that gets the user's unique ID
     public static int getAccountUserID() {
         return accountUserID;
     }
 
+    // buttons calls method to register new user
     public void signUpButtonOnAction(ActionEvent event) {
         createAccountForm();
     }
 
+    // opens up new scene to create and register new account
     public void createAccountForm() {
         try{
             // make user registration window pop up
@@ -115,6 +116,7 @@ public class LoginController implements Initializable {
         }
     }
 
+    // opens up main dashboard for Personal Expense Manager
     public void openPEM() {
         try{
             // make user registration window pop up

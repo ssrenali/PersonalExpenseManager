@@ -2,9 +2,10 @@ package PEM;
 
 import javafx.beans.property.*;
 
-// pojo class for making transaction table
+// class created to have a specific object type for transaction table
 public class TransactionTable {
 
+    // class properties
     private final StringProperty type = new SimpleStringProperty();
     private final StringProperty description = new SimpleStringProperty();
     private final DoubleProperty amount = new SimpleDoubleProperty();
@@ -12,6 +13,7 @@ public class TransactionTable {
     private final StringProperty category = new SimpleStringProperty();
     private final IntegerProperty id = new SimpleIntegerProperty();
 
+    // basic getters and setters for all of its properties
 
     public int getId() {
         return id.get();

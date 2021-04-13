@@ -92,6 +92,7 @@ public class ReportsController implements Initializable {
     }
     // Loads the transaction line graph for the previous month (past 30 days)
     public void lineMonthButtonOnAction(ActionEvent event) {
+        // clear previous line graph data
         expSeries.getData().clear();
         incSeries.getData().clear();
         netSeries.getData().clear();
@@ -106,6 +107,7 @@ public class ReportsController implements Initializable {
 
             resultSet = connection.createStatement().executeQuery(query);
 
+            // add data points from result set
             while(resultSet.next()) {
                 expSeries.getData().add(new XYChart.Data(resultSet.getString("date"),
                         Double.parseDouble(resultSet.getString("expense"))));
@@ -115,7 +117,7 @@ public class ReportsController implements Initializable {
                         Double.parseDouble(resultSet.getString("net_balance"))));
 
             }
-
+            // create graph legend
             expSeries.setName("Expenses");
             incSeries.setName("Income");
             netSeries.setName("Net Balance");
@@ -129,6 +131,7 @@ public class ReportsController implements Initializable {
     }
     // loads the transaction line graph for the previous week (past 7 days)
     public void lineWeekButtonOnAction(ActionEvent event) {
+
         expSeries.getData().clear();
         incSeries.getData().clear();
         netSeries.getData().clear();
@@ -137,6 +140,7 @@ public class ReportsController implements Initializable {
         incSeries = new XYChart.Series();
         netSeries = new XYChart.Series();
         try {
+            // same logic as lineMonthButtonOnAction but change date range to 7 days instead of 30
             String query = "select date, sum(case when transaction_type = 'expense' then amount else 0 end) as expense, sum(case when transaction_type = 'income' then amount else 0 end) as income, (sum( case when transaction_type = 'income' then amount else 0 end )\n" +
                     "- sum(case when transaction_type = 'expense' then amount else 0 end) ) as net_balance " +
                     "FROM transactions WHERE iduser_account = " + currentUserID + " and date BETWEEN CURDATE() - INTERVAL 7 DAY AND CURDATE() group by date order by date ASC";
@@ -216,6 +220,7 @@ public class ReportsController implements Initializable {
         incSeries = new XYChart.Series();
         netSeries = new XYChart.Series();
         try {
+            // get result set for transaction in viewYear
             String query = "select date, sum(case when transaction_type = 'expense' then amount else 0 end) as expense, sum(case when transaction_type = 'income' then amount else 0 end) as income, (sum( case when transaction_type = 'income' then amount else 0 end )\n" +
                     "- sum(case when transaction_type = 'expense' then amount else 0 end) ) as net_balance " +
                     "FROM transactions WHERE iduser_account = " + currentUserID + " and year(date) = " + viewYear + " group by date order by date ASC";
@@ -264,6 +269,7 @@ public class ReportsController implements Initializable {
         expPieChartData.clear();
         expPieChartData = FXCollections.observableArrayList();
         try {
+            // get result set for expenses in past 7 days
             String queryWeek = "  SELECT  category, sum(amount)" +
                     " FROM    transactions\n" +
                     " WHERE   date BETWEEN CURDATE() - INTERVAL 7 DAY AND CURDATE() and iduser_account  = " + currentUserID +
@@ -272,11 +278,13 @@ public class ReportsController implements Initializable {
 
             resultSet = connection.createStatement().executeQuery(queryWeek);
 
+            // add result set data to pie chart
             while(resultSet.next()) {
                 expPieChartData.add(new PieChart.Data(resultSet.getString("category"),
                         Double.parseDouble(resultSet.getString("sum(amount)"))));
 
             }
+            // add labels to pie chart cells
             expPieChartData.forEach(data ->
                     data.nameProperty().bind(
                             Bindings.concat(
@@ -284,6 +292,8 @@ public class ReportsController implements Initializable {
                             )
                     )
             );
+
+            // add pie chart data list to the chart
             expensePieChart.setData(expPieChartData);
 
         } catch (SQLException ex) {
@@ -293,6 +303,7 @@ public class ReportsController implements Initializable {
     }
     // creates pie chart for expenses made the past month (past 30 days)
     public void expMonthOnAction(ActionEvent event) {
+        // same logic as expWeekOnAction but change query to get expenses in past 30 days
         expPieChartData.clear();
         expPieChartData = FXCollections.observableArrayList();
         try {
@@ -373,7 +384,7 @@ public class ReportsController implements Initializable {
             ex.getCause();
         }
     }
-    // displays all exenses in a pie chart
+    // displays all expenses in a pie chart
     public void loadAllExpensePieChart() {
         //expPieChartData.clear();
         expPieChartData = FXCollections.observableArrayList();
@@ -407,18 +418,21 @@ public class ReportsController implements Initializable {
 
 
     // income pie chart
+    // returns to dashboard
     public void incDashboardOnAction(ActionEvent event){
         Stage stage = (Stage) incPieChartExitButton.getScene().getWindow();
         stage.close();
     }
+    // exits entire program
     public void incExitOnAction(ActionEvent event) {
         Stage stage = (Stage) incPieChartExitButton.getScene().getWindow();
         stage.close();
         Platform.exit();
     }
 
+    // pie chart for past week's income
     public void incWeekOnAction(ActionEvent event) {
-        //incPieChartData.clear();
+        // same logic as expWeekOnAction but query gets transaction type as income instead of expense
         incPieChartData = FXCollections.observableArrayList();
         try {
             String queryWeek = "  SELECT  category, sum(amount)" +
@@ -448,6 +462,7 @@ public class ReportsController implements Initializable {
             ex.getCause();
         }
     }
+    // displays pie chart for past month's income
     public void incMonthOnAction(ActionEvent event) {
         incPieChartData.clear();
         incPieChartData = FXCollections.observableArrayList();
@@ -479,7 +494,11 @@ public class ReportsController implements Initializable {
             ex.getCause();
         }
     }
+
+    // pie chart for all income
     public void incAllOnAction(ActionEvent event)  { loadAllIncomePieChart();}
+
+    // checks if year input is valid, then displays pie chart of that year's income
     public void incOKOnAction(ActionEvent event) {
         int digits = String.valueOf(incPieChartYear.getText()).length();
         if (digits == 4 && isInteger(incPieChartYear.getText())) {
@@ -490,6 +509,7 @@ public class ReportsController implements Initializable {
 
     }
 
+    // loads pie chart with all income
     public void loadAllIncomePieChart() {
         if (incPieChartData != null) {
             incPieChartData.clear();
@@ -522,6 +542,8 @@ public class ReportsController implements Initializable {
             ex.getCause();
         }
     }
+
+    // loads pie chart of a given year
     public void loadIncomePieChartYear() {
         viewYear = incPieChartYear.getText();
         //incPieChartData.clear();
@@ -557,6 +579,7 @@ public class ReportsController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        // load all initial graphs
         loadAllExpensePieChart();
         loadAllIncomePieChart();
         loadAllLineGraph();
