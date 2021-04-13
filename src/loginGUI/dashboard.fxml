@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="PEM.DashboardController">
+   <left>
+      <AnchorPane prefHeight="700.0" prefWidth="162.0" style="-fx-background-color: #03dac5;" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="viewDashboardButton" layoutX="26.0" layoutY="31.0" mnemonicParsing="false" prefHeight="61.0" prefWidth="111.0" style="-fx-background-color: #3b3d3d;" text="Dashboard" textFill="#03dac5" />
+            <Button fx:id="viewReportsButton" layoutX="26.0" layoutY="296.0" mnemonicParsing="false" onAction="#viewReportsButtonOnAction" prefHeight="82.0" prefWidth="108.0" style="-fx-background-color: #3b3d3d;" text="View Reports" textFill="#03dac5" />
+            <Button fx:id="logoutButton" layoutX="53.0" layoutY="605.0" mnemonicParsing="false" onAction="#logoutButtonOnAction" style="-fx-background-color: #3b3d3d;" text="Logout" textFill="#03dac5" />
+            <Button fx:id="exitButton" layoutX="54.0" layoutY="638.0" mnemonicParsing="false" onAction="#exitButtonOnAction" prefHeight="25.0" prefWidth="53.0" style="-fx-background-color: #3b3d3d;" text="Exit" textFill="#03dac5" />
+         </children></AnchorPane>
+   </left>
+   <center>
+      <AnchorPane prefHeight="491.0" prefWidth="547.0" style="-fx-background-color: #3b3d3d;" BorderPane.alignment="CENTER">
+         <children>
+            <AnchorPane layoutX="17.0" layoutY="29.0" prefHeight="141.0" prefWidth="177.0" style="-fx-background-color: #6bd12c;">
+               <children>
+                  <Label layoutX="13.0" layoutY="14.0" text="Current Balance:" />
+                  <Label fx:id="currentBalanceLabel" layoutX="24.0" layoutY="56.0" text="\$70.00">
+                     <font>
+                        <Font size="37.0" />
+                     </font>
+                  </Label>
+               </children></AnchorPane>
+            <AnchorPane layoutX="210.0" layoutY="28.0" prefHeight="105.0" prefWidth="115.0" style="-fx-background-color: #a75fd4;">
+               <children>
+                  <Button fx:id="shoppingButton" layoutX="13.0" layoutY="13.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="88.0" style="-fx-background-color: #a75fd4;" text="Shopping">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Button>
+                  <Label fx:id="shoppingLabel" layoutX="41.0" layoutY="63.0" text="Label">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+               </children></AnchorPane>
+            <AnchorPane layoutX="335.0" layoutY="29.0" prefHeight="105.0" prefWidth="115.0" style="-fx-background-color: #f2843a;">
+               <children>
+                  <Button fx:id="etsyButton" layoutX="13.0" layoutY="12.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="88.0" style="-fx-background-color: #f2843a;" text="Etsy">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Button>
+                  <Label fx:id="etsyLabel" layoutX="41.0" layoutY="63.0" text="Label">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+               </children></AnchorPane>
+            <AnchorPane layoutX="585.0" layoutY="30.0" prefHeight="105.0" prefWidth="115.0" style="-fx-background-color: #47cade;">
+               <children>
+                  <Label layoutY="14.0" />
+                  <Button fx:id="educationButton" layoutX="13.0" layoutY="13.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="88.0" style="-fx-background-color: #47cade;" text="Education">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font></Button>
+                  <Label fx:id="educationLabel" layoutX="41.0" layoutY="63.0" text="Label">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+               </children></AnchorPane>
+            <AnchorPane layoutX="460.0" layoutY="30.0" prefHeight="105.0" prefWidth="115.0" style="-fx-background-color: #e8d617;">
+               <children>
+                  <Button fx:id="livingButton" layoutX="13.0" layoutY="13.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="88.0" style="-fx-background-color: #e8d617;" text="Living">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font></Button>
+                  <Label fx:id="livingLabel" layoutX="41.0" layoutY="63.0" text="Label">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+               </children></AnchorPane>
+            <AnchorPane layoutX="710.0" layoutY="30.0" prefHeight="105.0" prefWidth="115.0" style="-fx-background-color: #c7c6c1;">
+               <children>
+                  <Button fx:id="otherButton" layoutX="13.0" layoutY="13.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="88.0" style="-fx-background-color: #c7c6c1;" text="Other">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font></Button>
+                  <Label fx:id="otherLabel" layoutX="41.0" layoutY="63.0" text="Label">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+               </children></AnchorPane>
+            <TabPane fx:id="transactionsTabPane" layoutX="37.0" layoutY="215.0" prefHeight="452.0" prefWidth="410.0" style="-fx-background-color: #5e6161;" tabClosingPolicy="UNAVAILABLE">
+              <tabs>
+                <Tab fx:id="allTransactionsTab" text="Transactions">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <TableView fx:id="allTransactionsTableView" layoutY="1.0" prefHeight="426.0" prefWidth="414.0">
+                                 <columns>
+                                    <TableColumn fx:id="allTypeCol" prefWidth="53.0" text="Type" />
+                                    <TableColumn fx:id="allDescriptionCol" prefWidth="119.0" text="Description" />
+                                    <TableColumn fx:id="allAmountCol" prefWidth="60.0" text="Amount" />
+                                    <TableColumn fx:id="allDateCol" prefWidth="87.0" text="Date" />
+                                    <TableColumn fx:id="allCategoryCol" prefWidth="94.0" text="Category" />
+                                 </columns>
+                              </TableView>
+                           </children></AnchorPane>
+                  </content>
+                </Tab>
+              </tabs>
+            </TabPane>
+            <BorderPane layoutX="476.0" layoutY="236.0" prefHeight="419.0" prefWidth="297.0" style="-fx-background-color: #5e6161;">
+               <top>
+                  <AnchorPane prefHeight="42.0" prefWidth="297.0" style="-fx-background-color: #03dac5;" BorderPane.alignment="CENTER">
+                     <children>
+                        <Text fill="#3b3d3d" layoutX="95.0" layoutY="26.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add Transaction">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font></Text>
+                     </children>
+                  </AnchorPane>
+               </top>
+               <center>
+                  <AnchorPane prefHeight="369.0" prefWidth="297.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <TextField fx:id="amountTextField" layoutX="25.0" layoutY="153.0" prefHeight="26.0" prefWidth="247.0" promptText="amount" />
+                        <TextField fx:id="dateTextField" layoutX="25.0" layoutY="211.0" prefHeight="26.0" prefWidth="247.0" promptText="YYYY-MM-DD" />
+                        <TextField fx:id="descriptionTextField" layoutX="25.0" layoutY="94.0" prefHeight="26.0" prefWidth="247.0" promptText="description" />
+                        <CheckBox fx:id="shoppingCheckBox" layoutX="25.0" layoutY="250.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="107.0" text="Shopping" textFill="#9e9e9e">
+                           <font>
+                              <Font size="11.0" />
+                           </font>
+                        </CheckBox>
+                        <CheckBox fx:id="etsyCheckBox" layoutX="25.0" layoutY="283.0" mnemonicParsing="false" text="Etsy" textFill="#9e9e9e">
+                           <font>
+                              <Font size="11.0" />
+                           </font>
+                        </CheckBox>
+                        <CheckBox fx:id="livingCheckBox" layoutX="122.0" layoutY="255.0" mnemonicParsing="false" text="Living " textFill="#9e9e9e">
+                           <font>
+                              <Font size="11.0" />
+                           </font>
+                        </CheckBox>
+                        <CheckBox fx:id="educationalCheckBox" layoutX="122.0" layoutY="283.0" mnemonicParsing="false" text="Educational" textFill="#9e9e9e">
+                           <font>
+                              <Font size="11.0" />
+                           </font>
+                        </CheckBox>
+                        <CheckBox fx:id="otherCheckBox" layoutX="220.0" layoutY="255.0" mnemonicParsing="false" text="Other" textFill="#9e9e9e">
+                           <font>
+                              <Font size="11.0" />
+                           </font>
+                        </CheckBox>
+                        <Button fx:id="submitTransactionButton" layoutX="118.0" layoutY="332.0" mnemonicParsing="false" onAction="#submitTransactionButtonOnAction" prefHeight="31.0" prefWidth="59.0" style="-fx-background-color: #03dac5;" text="Submit" />
+                        <Text fill="WHITE" layoutX="25.0" layoutY="81.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Description:" />
+                        <Text fill="WHITE" layoutX="25.0" layoutY="142.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Amount" />
+                        <Text fill="WHITE" layoutX="25.0" layoutY="201.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Date:" />
+                        <Label fx:id="addExpenseLabel" layoutX="134.0" layoutY="307.0" textAlignment="CENTER" textFill="#03dac5" />
+                        <CheckBox fx:id="jobCheckBox" layoutX="220.0" layoutY="283.0" mnemonicParsing="false" text="Job" textFill="#9e9e9e">
+                           <font>
+                              <Font size="11.0" />
+                           </font>
+                        </CheckBox>
+                        <CheckBox fx:id="expenseCheckBox" layoutX="57.0" layoutY="39.0" mnemonicParsing="false" text="Expense" textFill="#9e9e9e">
+                           <font>
+                              <Font size="11.0" />
+                           </font>
+                        </CheckBox>
+                        <CheckBox fx:id="incomeCheckBox" layoutX="179.0" layoutY="39.0" mnemonicParsing="false" text="Income" textFill="#9e9e9e">
+                           <font>
+                              <Font size="11.0" />
+                           </font>
+                        </CheckBox>
+                        <Text fill="WHITE" layoutX="25.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Type:" />
+                     </children>
+                  </AnchorPane>
+               </center>
+            </BorderPane>
+         </children>
+      </AnchorPane>
+   </center>
+</BorderPane>
